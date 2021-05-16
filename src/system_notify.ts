@@ -1,10 +1,5 @@
 import axios from 'axios';
-import { ITelegramConfig, ILogger } from './definitions';
-
-export interface ISystemNotify {
-  sendErrorToTelegram(title: string, error?: any): Promise<void>;
-  sendSuccessMessageToTelegram(title: string): Promise<void>;
-}
+import { ITelegramConfig, ILogger, ISystemNotify } from './definitions';
 
 export class SystemNotify implements ISystemNotify {
   constructor(public config: ITelegramConfig, public logger: ILogger = console) {}

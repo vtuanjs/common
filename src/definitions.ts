@@ -86,3 +86,8 @@ export interface ICache {
 }
 
 export type SetAsyncMode = 'EX' | 'PX' | 'KEEPTTL';
+
+export interface ISystemNotify {
+  sendErrorToTelegram(title: string, error?: any): Promise<void>;
+  sendSuccessMessageToTelegram(title: string): Promise<void>;
+}
