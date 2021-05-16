@@ -36,7 +36,7 @@ const user = userData[0];
 let findUser: UserEntity;
 
 before((done) => {
-  const mongodb = new MongoDB({ logger });
+  const mongodb = new MongoDB({}, logger);
   mongodb
     .connect()
     .then(() => done())
