@@ -5,7 +5,8 @@ import {
   FindAllResponse,
   ILogger,
   IBaseService,
-  ServiceCache
+  ServiceCache,
+  UpdateOptions
 } from './definitions';
 
 const CACHE_REF_ID = '#refId_';
@@ -54,8 +55,8 @@ export abstract class BaseService<T> implements IBaseService<T> {
     return _entity;
   }
 
-  async findOneAndUpdate(cond: Partial<T>, doc: Partial<T>): Promise<T> {
-    const _entity = await this.repo.findOneAndUpdate(cond, doc);
+  async findOneAndUpdate(cond: Partial<T>, doc: Partial<T>, options?: UpdateOptions): Promise<T> {
+    const _entity = await this.repo.findOneAndUpdate(cond, doc, options);
 
     if (_entity) this.setCache(cond, _entity);
     return _entity;
