@@ -18,6 +18,13 @@ export abstract class BaseService<T> implements IBaseService<T> {
   private ttl?: number;
   protected logger?: ILogger;
 
+  /**
+   *
+   * @param cache Cache property
+   * @param {ICache} cache.cache Ex: Redis Cache
+   * @param {string} cache.prefix Unique key in system. Ex: 'app|user'
+   * @param {number} cache.ttl Time to live (second)
+   */
   constructor(repo: IBaseRepository<T>, cache?: ServiceCache, logger: ILogger = console) {
     this.repo = repo;
     this.cache = cache?.cache;
