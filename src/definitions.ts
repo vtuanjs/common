@@ -71,8 +71,9 @@ export interface ErrorDetails {
 }
 
 export type ServiceCache = {
+  appName: string;
+  uniqueKey: string;
   cache: ICache;
-  prefix: string;
   second: number;
 };
 
