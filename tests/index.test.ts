@@ -1,6 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { BaseRepository, MongoDB, Schema } from '@vtjs/mongoose';
+import { RedisCache } from '@vtjs/cache';
 import { BaseEntity, BaseService, Logger } from '../src';
 
 import userData from './user.json';
@@ -11,6 +12,9 @@ class UserEntity extends BaseEntity {
 }
 
 const logger = new Logger({ service: 'Test' });
+
+// Cache
+const cache = new RedisCache({});
 
 // MongoDB
 const userSchema = new Schema({
@@ -27,7 +31,16 @@ class UserRepository extends BaseRepository<UserEntity> {
 class UserService extends BaseService<UserEntity> {
   constructor() {
     const userRepo = new UserRepository();
-    super(userRepo, undefined, logger);
+    super(
+      userRepo,
+      {
+        cache,
+        appName: 'Example',
+        uniqueKey: 'user',
+        second: 60
+      },
+      logger
+    );
   }
 }
 

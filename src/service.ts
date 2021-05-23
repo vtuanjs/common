@@ -110,32 +110,36 @@ export abstract class BaseService<T> implements IBaseService<T> {
     }
   }
 
-  protected async deleteCache(cond: Partial<T>): Promise<void> {
+  protected deleteCache(cond: Partial<T>): void {
     if (!this.cache) return;
     if (!Object.keys(cond).length) return;
 
     const key = this.createCacheKey(cond);
-    try {
-      this.cache.delAsync(key);
-    } catch (error) {
+
+    this.cache.delAsync(key).catch((error) => {
       this.logger?.warn(`Delete cache with key ${key} error: `, error);
-    }
+    });
   }
 
-  protected async setCache(cond: Partial<T>, entity: T): Promise<unknown> {
-    if (!this.cache) return null;
-    if (!Object.keys(cond).length) return null;
+  protected setCache(cond: Partial<T>, entity: T): void {
+    if (!this.cache) return;
+    if (!Object.keys(cond).length) return;
 
     const key = this.createCacheKey(cond);
-    try {
-      if ((cond as any).id) {
-        return this.cache.setAsync(key, JSON.stringify(entity), 'EX', this.ttl);
-      }
 
-      return this.cache.setAsync(key, `${CACHE_REF_ID}${(entity as any).id}`, 'EX', this.ttl);
-    } catch (error) {
-      this.logger?.warn(`Set cache with key ${key} error: `, error);
+    if ((cond as any).id) {
+      this.cache.setAsync(key, JSON.stringify(entity), 'EX', this.ttl).catch((error) => {
+        this.logger?.warn(`Set cache with key ${key} error: `, error);
+      });
+      return;
     }
+
+    this.cache
+      .setAsync(key, `${CACHE_REF_ID}${(entity as any).id}`, 'EX', this.ttl)
+      .catch((error) => {
+        this.logger?.warn(`Set cache with key ${key} error: `, error);
+      });
+    return;
   }
 
   protected createCacheKey(obj: Record<string, unknown>): string {

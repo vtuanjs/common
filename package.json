@@ -1,6 +1,6 @@
 {
   "name": "@vtjs/common",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "COMMON",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -31,6 +31,7 @@
     "@types/node": "^15.3.0",
     "@typescript-eslint/eslint-plugin": "^4.23.0",
     "@typescript-eslint/parser": "^4.23.0",
+    "@vtjs/cache": "^0.1.5",
     "@vtjs/mongoose": "^0.1.2",
     "chai": "^4.3.4",
     "eslint": "^7.26.0",
