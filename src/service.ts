@@ -11,6 +11,10 @@ import {
 
 const CACHE_REF_ID = '#refId_';
 
+function isAllowecCache() {
+  return process.env.NODE_ENV !== 'development';
+}
+
 export abstract class BaseService<T> implements IBaseService<T> {
   repo: IBaseRepository<T>;
   private cache?: ICache;
@@ -20,7 +24,7 @@ export abstract class BaseService<T> implements IBaseService<T> {
 
   constructor(repo: IBaseRepository<T>, cache?: ServiceCache, logger: ILogger = console) {
     this.repo = repo;
-    this.cache = cache?.cache;
+    this.cache = isAllowecCache() ? cache?.cache : undefined;
     this.prefix = cache?.appName ? cache.appName + cache.uniqueKey : '';
     this.ttl = cache?.second;
     this.logger = logger;
